@@ -1,0 +1,15 @@
+### POST User
+POST {{BASE_URI}}:{{PORT}}/user
+Content-Type: application/json
+
+{
+  "id": 1,
+  "first_name": "Max",
+  "last_name": "Mustermann"
+}
+
+### GET User
+GET {{BASE_URI}}:{{PORT}}/user
+
+### GET unknown
+GET {{BASE_URI}}:{{PORT}}/unknown

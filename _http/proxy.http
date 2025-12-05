@@ -1,0 +1,2 @@
+### GET User
+GET {{BASE_URI}}:{{PORT}}/https/example.com
