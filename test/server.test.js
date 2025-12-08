@@ -13,7 +13,7 @@ beforeAll(async () => {
 
   serverProcess = spawn('node', ['server.js'], {
     env: { ...process.env, PORT: TEST_PORT },
-    stdio: 'pipe'
+    stdio: 'inherit'
   });
 
   baseURL = `http://localhost:${TEST_PORT}`;
@@ -23,9 +23,13 @@ beforeAll(async () => {
   for (let i = 0; i < maxAttempts; i++) {
     try {
       await request(baseURL).get('/').timeout(500);
+      console.log(`Server ready after ${i + 1} attempts`);
       break;
     } catch (error) {
-      if (i === maxAttempts - 1) throw new Error('Server failed to start');
+      if (i === maxAttempts - 1) {
+        console.error('Server failed to start after 30 attempts');
+        throw new Error(`Server failed to start: ${error.message}`);
+      }
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
   }
