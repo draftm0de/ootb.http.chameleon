@@ -1,31 +1,35 @@
-name: CI
+# DISABLED: Using node-js-ci.yml instead
+# This simple CI workflow is kept for reference but not active.
+# The reusable node-js-ci.yml workflow handles all CI checks.
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: '.nvmrc'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run linter
-        run: npm run lint
-
-      - name: Check formatting
-        run: npm run format:check
-
-      - name: Run tests
-        run: npm test
+# name: CI
+#
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
+#
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - uses: actions/checkout@v4
+#
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version-file: '.nvmrc'
+#
+#       - name: Install dependencies
+#         run: npm install
+#
+#       - name: Run linter
+#         run: npm run lint
+#
+#       - name: Check formatting
+#         run: npm run format:check
+#
+#       - name: Run tests
+#         run: npm test

@@ -110,5 +110,5 @@ jobs:
           enable-cache: 'true'
           lint-script: ${{ env.LINT_SCRIPT }}
           prettier-script: ${{ env.PRETTIER_SCRIPT }}
-          badges-script: ${{ env.BADGES_SCRIPT }}
+          badges-script: ''
           test-script: ${{ env.TEST_SCRIPT }}
