@@ -101,19 +101,25 @@ curl -X POST http://localhost:3000/entity \
 
 ## Development
 
-### Running Tests
+### Prerequisites
 
-Unit tests:
+- Node.js version specified in `.nvmrc` (currently 22)
+- npm or Docker
+
+### Running Tests
 
 ```bash
 npm install
 npm test
 ```
 
-Integration tests (requires server running):
+### Code Quality
 
 ```bash
-./test/test.sh
+npm run lint           # Check code quality
+npm run lint:fix       # Auto-fix linting issues
+npm run format         # Format code with Prettier
+npm run format:check   # Verify code formatting
 ```
 
 ### Running Locally (without Docker)
@@ -122,6 +128,37 @@ Integration tests (requires server running):
 npm install
 npm start
 ```
+
+## Building
+
+### Docker Build
+
+The Dockerfile uses the Node.js version from `.nvmrc`:
+
+```bash
+# Build with default version from .nvmrc
+docker build -t http-chameleon .
+
+# Build with custom Node version
+docker build --build-arg NODE_VERSION=20 -t http-chameleon .
+
+# Using docker-compose
+docker-compose up --build
+```
+
+### Node Version Management
+
+This project uses `.nvmrc` to specify the Node.js version:
+
+```bash
+# If using nvm (Node Version Manager)
+nvm use
+
+# Manual check
+cat .nvmrc
+```
+
+All build systems (CI, Docker, local development) read from this single source.
 
 ## Stopping the Server
 
