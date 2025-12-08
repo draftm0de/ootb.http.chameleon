@@ -6,29 +6,29 @@ description: node-js-auto-tagging
 
 inputs:
   package-json-path:
-    description: "Path to package.json"
-    default: "package.json"
+    description: 'Path to package.json'
+    default: 'package.json'
     required: false
 
 outputs:
   version:
-    description: "Version read from package.json (x.y.z)"
+    description: 'Version read from package.json (x.y.z)'
     value: ${{ steps.read_version.outputs.version }}
   version_with_build:
-    description: "Full version read from package.json (x.y.z+build)"
+    description: 'Full version read from package.json (x.y.z+build)'
     value: ${{ steps.read_version.outputs.version_with_build }}
   build_metadata:
-    description: "Build metadata portion that followed the semver (if any)"
+    description: 'Build metadata portion that followed the semver (if any)'
     value: ${{ steps.read_version.outputs.build_metadata }}
   new_version:
-    description: "Next patch version (x.y.(z+1))"
+    description: 'Next patch version (x.y.(z+1))'
     value: ${{ steps.patch_version.outputs.new_version }}
   new_version_with_build:
-    description: "Next patch version, preserving build metadata if it existed"
+    description: 'Next patch version, preserving build metadata if it existed'
     value: ${{ steps.patch_version.outputs.new_version_with_build }}
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Read version from package.json
       id: read_version
