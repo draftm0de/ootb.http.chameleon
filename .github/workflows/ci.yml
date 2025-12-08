@@ -21,19 +21,5 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Run unit tests
+    - name: Run tests
       run: npm test
-
-    - name: Start server
-      run: npm start &
-      env:
-        PORT: 3000
-
-    - name: Wait for server
-      run: |
-        timeout 30 bash -c 'until curl -s http://localhost:3000/health > /dev/null 2>&1 || curl -s http://localhost:3000 > /dev/null 2>&1; do sleep 1; done'
-
-    - name: Run integration tests
-      run: ./test/test.sh
-      env:
-        BASE_URL: http://localhost:3000

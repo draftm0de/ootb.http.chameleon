@@ -33,34 +33,42 @@ describe('HTTP Mock Server - Integration Tests', () => {
     it('should proxy HTTPS requests', async () => {
       const response = await request(baseURL)
         .get('/https/httpbin.org/get')
-        .expect(200);
+        .retry(3)
+        .timeout(15000);
 
+      expect(response.status).toBe(200);
       expect(response.text).toContain('httpbin');
-    }, 10000);
+    }, 20000);
 
     it('should proxy HTTP requests', async () => {
       await request(baseURL)
         .get('/http/httpbin.org/status/200')
+        .retry(3)
+        .timeout(15000)
         .expect(200);
-    }, 10000);
+    }, 20000);
 
     it('should proxy POST requests with body', async () => {
       const testData = { test: 'data', value: 123 };
       const response = await request(baseURL)
         .post('/https/httpbin.org/post')
         .send(testData)
+        .retry(3)
+        .timeout(15000)
         .expect(200);
 
       expect(response.body.json).toEqual(testData);
-    }, 10000);
+    }, 20000);
 
     it('should include CORS headers', async () => {
       const response = await request(baseURL)
         .get('/https/httpbin.org/get')
+        .retry(3)
+        .timeout(15000)
         .expect(200);
 
       expect(response.headers['access-control-allow-origin']).toBe('*');
-    }, 10000);
+    }, 20000);
   });
 
   describe('File-based mock functionality', () => {
