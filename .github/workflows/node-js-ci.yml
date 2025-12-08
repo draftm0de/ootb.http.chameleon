@@ -4,9 +4,10 @@ name: Node JS CI
 # static analysis, tests, and semantic versioning in sync before merging.
 
 on:
-  pull_request:
+  push:
     branches:
       - main
+  pull_request:
     types:
       - opened
       - synchronize
