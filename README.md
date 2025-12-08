@@ -105,13 +105,16 @@ curl -X POST http://localhost:3000/entity \
 
 - Node.js version specified in `.nvmrc` (currently 22)
 - npm or Docker
+- **Required:** `package-lock.json` must be committed for reproducible builds
 
 ### Running Tests
 
 ```bash
-npm install
+npm ci    # Requires package-lock.json
 npm test
 ```
+
+> **Note:** If `package-lock.json` is missing, run `npm install` to generate it, then commit the file.
 
 ### Code Quality
 
