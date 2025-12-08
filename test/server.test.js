@@ -13,7 +13,7 @@ beforeAll(async () => {
 
   serverProcess = spawn('node', ['server.js'], {
     env: { ...process.env, PORT: TEST_PORT },
-    stdio: 'inherit'
+    stdio: 'inherit',
   });
 
   baseURL = `http://localhost:${TEST_PORT}`;
@@ -65,47 +65,35 @@ describe('HTTP Mock Server - Integration Tests', () => {
     it('should store and retrieve mock data', async () => {
       const testData = { id: 1, name: 'Test Entity' };
 
-      await request(baseURL)
-        .post('/entity')
-        .send(testData)
-        .expect(200);
+      await request(baseURL).post('/entity').send(testData).expect(200);
 
-      const response = await request(baseURL)
-        .get('/entity')
-        .expect(200);
+      const response = await request(baseURL).get('/entity').expect(200);
 
       expect(response.body).toEqual(testData);
     });
 
     it('should return empty array for missing plural endpoints', async () => {
-      const response = await request(baseURL)
-        .get('/products')
-        .expect(200);
+      const response = await request(baseURL).get('/products').expect(200);
 
       expect(response.body).toEqual([]);
     });
 
     it('should return 404 for missing singular endpoints', async () => {
-      await request(baseURL)
-        .get('/product')
-        .expect(404);
+      const response = await request(baseURL).get('/product').expect(404);
+
+      expect(response.body).toEqual({});
     });
 
     it('should find item by ID in array', async () => {
       const users = [
         { id: 1, name: 'User 1' },
         { id: 21, name: 'User 21' },
-        { id: 42, name: 'User 42' }
+        { id: 42, name: 'User 42' },
       ];
 
-      await request(baseURL)
-        .post('/users')
-        .send(users)
-        .expect(200);
+      await request(baseURL).post('/users').send(users).expect(200);
 
-      const response = await request(baseURL)
-        .get('/users/21')
-        .expect(200);
+      const response = await request(baseURL).get('/users/21').expect(200);
 
       expect(response.body).toEqual({ id: 21, name: 'User 21' });
     });

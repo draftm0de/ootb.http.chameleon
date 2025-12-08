@@ -41,7 +41,7 @@ app.all('*', async (req, res) => {
         method: req.method,
         url: targetUrl,
         headers: headers,
-        validateStatus: () => true
+        validateStatus: () => true,
       };
 
       if (['POST', 'PUT', 'PATCH'].includes(req.method.toUpperCase())) {
@@ -51,7 +51,7 @@ app.all('*', async (req, res) => {
       const response = await axios(axiosConfig);
 
       res.status(response.status);
-      Object.keys(response.headers).forEach(key => {
+      Object.keys(response.headers).forEach((key) => {
         res.setHeader(key, response.headers[key]);
       });
       res.send(response.data);
@@ -86,8 +86,8 @@ app.all('*', async (req, res) => {
               const parentData = JSON.parse(parentContent);
 
               if (Array.isArray(parentData)) {
-                const item = parentData.find(item =>
-                  item.id === id || item.id === parseInt(id, 10)
+                const item = parentData.find(
+                  (item) => item.id === id || item.id === parseInt(id, 10)
                 );
 
                 if (item) {
@@ -97,7 +97,8 @@ app.all('*', async (req, res) => {
                 }
                 return;
               }
-            } catch (parentError) {
+            } catch {
+              // Parent file doesn't exist, continue to fallback logic
             }
           }
 

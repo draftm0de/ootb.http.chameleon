@@ -3,6 +3,7 @@
 ## 2025-12-05
 
 ### Added
+
 - Initial release of HTTP mock server
 - Docker Compose setup with configurable environment variables
 - Path-to-filename mapping for JSON responses
@@ -14,8 +15,8 @@
 - MIT License
 
 ### Features
+
 - Automatic mock file creation on write operations
 - ID-based lookup in array collections
 - 404 responses with no body for missing resources
 - Volume mounting for persistent mock data
-

@@ -7,6 +7,7 @@ A versatile HTTP server that adapts to your needs - mock API responses with file
 ## Setup
 
 1. Configure environment variables in `.env`:
+
    ```
    HOST=http://api.dev.draftmode.io
    PORT=3000
@@ -58,6 +59,7 @@ Request paths are converted to filenames in the `mocks/` directory:
 - **File missing & path doesn't end with 's'**: Returns 404 (no body)
 
 Example:
+
 ```bash
 curl http://localhost:3000/entity
 # Returns content of mocks/entity.json or 404
@@ -76,6 +78,7 @@ curl http://localhost:3000/users/21
 Stores the request body into the corresponding JSON file.
 
 Example:
+
 ```bash
 curl -X POST http://localhost:3000/entity \
   -H "Content-Type: application/json" \
@@ -101,12 +104,14 @@ curl -X POST http://localhost:3000/entity \
 ### Running Tests
 
 Unit tests:
+
 ```bash
 npm install
 npm test
 ```
 
 Integration tests (requires server running):
+
 ```bash
 ./test/test.sh
 ```
