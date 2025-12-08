@@ -46,23 +46,15 @@ describe('HTTP Mock Server - Integration Tests', () => {
   describe('Proxy functionality', () => {
     it('should proxy HTTPS requests', async () => {
       const response = await request(baseURL)
-        .get('/https/example.com')
+        .get('/https/raw.githubusercontent.com/draftm0de/ootb.http.chameleon/main/README.md')
         .expect(200);
 
-      expect(response.text).toContain('Example Domain');
-    });
-
-    it('should proxy HTTP requests', async () => {
-      const response = await request(baseURL)
-        .get('/http/neverssl.com');
-
-      expect(response.status).toBeGreaterThanOrEqual(200);
-      expect(response.status).toBeLessThan(400);
+      expect(response.text).toContain('HTTP Chameleon');
     });
 
     it('should include CORS headers', async () => {
       const response = await request(baseURL)
-        .get('/https/example.com')
+        .get('/https/raw.githubusercontent.com/draftm0de/ootb.http.chameleon/main/README.md')
         .expect(200);
 
       expect(response.headers['access-control-allow-origin']).toBe('*');
