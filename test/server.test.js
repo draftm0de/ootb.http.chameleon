@@ -18,8 +18,18 @@ beforeAll(async () => {
 
   baseURL = `http://localhost:${TEST_PORT}`;
 
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-}, 10000);
+  // Wait for server to be ready
+  const maxAttempts = 30;
+  for (let i = 0; i < maxAttempts; i++) {
+    try {
+      await request(baseURL).get('/').timeout(500);
+      break;
+    } catch (error) {
+      if (i === maxAttempts - 1) throw new Error('Server failed to start');
+      await new Promise((resolve) => setTimeout(resolve, 200));
+    }
+  }
+}, 30000);
 
 afterAll(async () => {
   if (serverProcess) {
