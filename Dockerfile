@@ -3,17 +3,25 @@ ARG NODE_VERSION=22
 FROM node:${NODE_VERSION}-alpine
 
 ARG MOCK_PATH=mocks
-ENV MOCK_PATH=${MOCK_PATH}
+ENV MOCK_PATH=${MOCK_PATH} \
+    NODE_ENV=production
 
 WORKDIR /app
 
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm ci --only=production && \
+    npm cache clean --force
 
-COPY server.js ./
+COPY --chown=nodejs:nodejs server.js ./
 
-RUN mkdir -p ${MOCK_PATH} && chmod 777 ${MOCK_PATH}
+RUN mkdir -p ${MOCK_PATH} && \
+    chown nodejs:nodejs ${MOCK_PATH}
+
+USER nodejs
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["node", "server.js"]
