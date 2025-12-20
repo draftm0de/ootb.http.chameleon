@@ -1,23 +1,42 @@
 name: Node JS CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - ready_for_review
+  merge_group:
+  push:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write # push tags/commits/releases
+  packages: write # push image to GHCR
+  pull-requests: read
 
 jobs:
-  node-ci:
+  node:
     uses: draftm0de/github.workflows/.github/workflows/node-js-ci.yml@main
     with:
-      node-version: '22'
-      enable-cache: 'true'
+      # --- for node itself ---
+      # node-version: 22
+      node-version-env: ".env"
+      enable-cache: true
       lint-script: 'lint'
-      prettier-script: 'format:check'
-      badges-script: ''
       test-script: 'test'
+      # prettier-script:
+      # badges-script:
+      # --- for ci tagging ---
+      ci-tag-source: nodejs
+      ci-tag-increment-patch: true
+      ci-release-branch-patterns: main
+      # --- for git tagging ---
+      # git-tag-levels: "major,minor,patch"
+      # --- for docker-build ---
+      # docker-image-name: ${{ github.repository }}
+      docker-build-args-file: .build.args
+      docker-registry: ghcr.io
+      # docker-build-options: --no-cache
+      # docker-build-reproducible: true
+      docker-tag-levels: latest,major,minor
+    secrets: inherit

@@ -1,13 +1,16 @@
-const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
-const axios = require('axios');
-const cors = require('cors');
+import express from "express";
+import fs from "fs/promises";
+import path from "path";
+import axios from "axios";
+import cors from "cors";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const HOST = process.env.HOST || '';
-const MOCKS_DIR = path.join(__dirname, 'mocks');
+const HOST = process.env.HOST || "";
+const MOCKS_DIR = path.join(__dirname, process.env.MOCK_PATH || "mocks");
 
 app.use(cors());
 app.use(express.json());
@@ -21,21 +24,21 @@ async function ensureMocksDir() {
 }
 
 function pathToFilename(reqPath) {
-  const cleanPath = reqPath.replace(/^\//, '').replace(/\/$/, '');
-  const filename = cleanPath.replace(/\//g, '_') || 'index';
+  const cleanPath = reqPath.replace(/^\//, "").replace(/\/$/, "");
+  const filename = cleanPath.replace(/\//g, "_") || "index";
   return path.join(MOCKS_DIR, `${filename}.json`);
 }
 
-app.all('*', async (req, res) => {
-  const cleanPath = req.path.replace(/^\//, '');
+app.all("*", async (req, res) => {
+  const cleanPath = req.path.replace(/^\//, "");
 
-  if (cleanPath.startsWith('http/') || cleanPath.startsWith('https/')) {
-    const targetUrl = cleanPath.replace(/^(https?)\//, '$1://');
+  if (cleanPath.startsWith("http/") || cleanPath.startsWith("https/")) {
+    const targetUrl = cleanPath.replace(/^(https?)\//, "$1://");
 
     try {
       const headers = { ...req.headers };
       delete headers.host;
-      delete headers['content-length'];
+      delete headers["content-length"];
 
       const axiosConfig = {
         method: req.method,
@@ -44,7 +47,7 @@ app.all('*', async (req, res) => {
         validateStatus: () => true,
       };
 
-      if (['POST', 'PUT', 'PATCH'].includes(req.method.toUpperCase())) {
+      if (["POST", "PUT", "PATCH"].includes(req.method.toUpperCase())) {
         axiosConfig.data = req.body;
       }
 
@@ -57,8 +60,8 @@ app.all('*', async (req, res) => {
       res.send(response.data);
       return;
     } catch (error) {
-      console.error('Proxy error:', error.message);
-      res.status(502).json({ error: 'Proxy error', message: error.message });
+      console.error("Proxy error:", error.message);
+      res.status(502).json({ error: "Proxy error", message: error.message });
       return;
     }
   }
@@ -67,27 +70,33 @@ app.all('*', async (req, res) => {
   const method = req.method.toUpperCase();
 
   try {
-    if (method === 'GET') {
+    if (method === "GET") {
       try {
-        const content = await fs.readFile(filename, 'utf-8');
+        const content = await fs.readFile(filename, "utf-8");
         const data = JSON.parse(content);
         res.json(data);
       } catch (error) {
-        if (error.code === 'ENOENT') {
-          const pathParts = req.path.replace(/^\//, '').replace(/\/$/, '').split('/');
+        if (error.code === "ENOENT") {
+          const pathParts = req.path
+            .replace(/^\//, "")
+            .replace(/\/$/, "")
+            .split("/");
 
           if (pathParts.length > 1) {
             const id = pathParts[pathParts.length - 1];
-            const parentPath = pathParts.slice(0, -1).join('/');
-            const parentFilename = path.join(MOCKS_DIR, `${parentPath.replace(/\//g, '_')}.json`);
+            const parentPath = pathParts.slice(0, -1).join("/");
+            const parentFilename = path.join(
+              MOCKS_DIR,
+              `${parentPath.replace(/\//g, "_")}.json`,
+            );
 
             try {
-              const parentContent = await fs.readFile(parentFilename, 'utf-8');
+              const parentContent = await fs.readFile(parentFilename, "utf-8");
               const parentData = JSON.parse(parentContent);
 
               if (Array.isArray(parentData)) {
                 const item = parentData.find(
-                  (item) => item.id === id || item.id === parseInt(id, 10)
+                  (item) => item.id === id || item.id === parseInt(id, 10),
                 );
 
                 if (item) {
@@ -102,25 +111,25 @@ app.all('*', async (req, res) => {
             }
           }
 
-          if (req.path.endsWith('s') || req.path.endsWith('s/')) {
+          if (req.path.endsWith("s") || req.path.endsWith("s/")) {
             res.json([]);
           } else {
             res.status(404).end();
           }
         } else {
-          res.status(500).json({ error: 'Server error' });
+          res.status(500).json({ error: "Server error" });
         }
       }
-    } else if (['POST', 'PUT', 'PATCH'].includes(method)) {
+    } else if (["POST", "PUT", "PATCH"].includes(method)) {
       await ensureMocksDir();
-      await fs.writeFile(filename, JSON.stringify(req.body, null, 2), 'utf-8');
+      await fs.writeFile(filename, JSON.stringify(req.body, null, 2), "utf-8");
       res.json({ success: true, stored: filename });
     } else {
-      res.status(405).json({ error: 'Method not allowed' });
+      res.status(405).json({ error: "Method not allowed" });
     }
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error("Error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 

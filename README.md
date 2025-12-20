@@ -11,6 +11,7 @@ A versatile HTTP server that adapts to your needs - mock API responses with file
    ```
    HOST=http://api.dev.draftmode.io
    PORT=3000
+   MOCK_PATH=mocks
    ```
 
 2. Start the server:
@@ -42,7 +43,7 @@ curl http://localhost:3000/https/api.example.com/users
 
 ### Path to File Mapping
 
-Request paths are converted to filenames in the `mocks/` directory:
+Request paths are converted to filenames in the mocks directory (configurable via `MOCK_PATH` environment variable, defaults to `mocks/`):
 
 - `/entity` → `mocks/entity.json`
 - `/entity/images` → `mocks/entity_images.json`
@@ -103,11 +104,13 @@ curl -X POST http://localhost:3000/entity \
 
 ### Prerequisites
 
-- Node.js version specified in `.nvmrc` (currently 22)
+- Node.js 22 or higher
 - npm or Docker
 - **Required:** `package-lock.json` must be committed for reproducible builds
 
 ### Running Tests
+
+This project uses Vitest for testing:
 
 ```bash
 npm ci    # Requires package-lock.json
@@ -136,32 +139,28 @@ npm start
 
 ### Docker Build
 
-The Dockerfile uses the Node.js version from `.nvmrc`:
+The Dockerfile supports build arguments for Node version and mock path:
 
 ```bash
-# Build with default version from .nvmrc
+# Build with defaults (NODE_VERSION=22, MOCK_PATH=mocks)
 docker build -t http-chameleon .
 
 # Build with custom Node version
 docker build --build-arg NODE_VERSION=20 -t http-chameleon .
 
+# Build with custom mock path
+docker build --build-arg MOCK_PATH=custom-mocks -t http-chameleon .
+
 # Using docker-compose
 docker-compose up --build
 ```
 
-### Node Version Management
+Build arguments can also be configured in `.env` file:
 
-This project uses `.nvmrc` to specify the Node.js version:
-
-```bash
-# If using nvm (Node Version Manager)
-nvm use
-
-# Manual check
-cat .nvmrc
 ```
-
-All build systems (CI, Docker, local development) read from this single source.
+NODE_VERSION=22
+MOCK_PATH=mocks
+```
 
 ## Stopping the Server
 
