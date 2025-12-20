@@ -1,10 +1,12 @@
-version: '3.8'
-
 services:
   http-mock:
-    build: .
+    build:
+      context: .
+      args:
+        - NODE_VERSION=${NODE_VERSION:-22}
+        - MOCK_PATH=${MOCK_PATH:-mocks}
     ports:
-      - '${PORT}:3000'
+      - "${PORT}:3000"
     env_file:
       - .env
     volumes:

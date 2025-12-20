@@ -1,48 +1,44 @@
-import js from '@eslint/js';
-import jestPlugin from 'eslint-plugin-jest';
-import prettierConfig from 'eslint-config-prettier';
+import js from "@eslint/js";
+import prettierConfig from "eslint-config-prettier";
 
 export default [
   js.configs.recommended,
   {
-    files: ['**/*.js'],
+    files: ["**/*.js"],
     languageOptions: {
       ecmaVersion: 2022,
-      sourceType: 'commonjs',
+      sourceType: "module",
       globals: {
-        console: 'readonly',
-        process: 'readonly',
-        __dirname: 'readonly',
-        require: 'readonly',
-        module: 'readonly',
-        exports: 'readonly',
-        setTimeout: 'readonly',
-        clearTimeout: 'readonly',
+        console: "readonly",
+        process: "readonly",
+        __dirname: "readonly",
+        setTimeout: "readonly",
+        clearTimeout: "readonly",
       },
     },
     rules: {
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'no-console': 'off',
-      'prefer-const': 'error',
-      'no-var': 'error',
+      "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "no-console": "off",
+      "prefer-const": "error",
+      "no-var": "error",
     },
   },
   {
-    files: ['test/**/*.js'],
-    plugins: {
-      jest: jestPlugin,
-    },
+    files: ["test/**/*.js"],
     languageOptions: {
       globals: {
-        ...jestPlugin.environments.globals.globals,
+        describe: "readonly",
+        it: "readonly",
+        expect: "readonly",
+        beforeAll: "readonly",
+        afterAll: "readonly",
+        beforeEach: "readonly",
+        afterEach: "readonly",
       },
-    },
-    rules: {
-      ...jestPlugin.configs.recommended.rules,
     },
   },
   prettierConfig,
   {
-    ignores: ['node_modules/', 'mocks/', 'test/mocks/', 'test/test-mocks/'],
+    ignores: ["node_modules/", "mocks/", "test/mocks/", "test/test-mocks/"],
   },
 ];

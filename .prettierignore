@@ -1,8 +1,0 @@
-node_modules
-mocks
-test/mocks
-test/test-mocks
-package-lock.json
-.idea
-.claude
-**/.claude
