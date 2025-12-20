@@ -31,10 +31,10 @@ jobs:
       ci-tag-increment-patch: true
       ci-release-branch-patterns: main
       # --- for git tagging ---
-      # git-tag-levels: "major,minor,patch"
+      git-tag-levels: "major,minor,patch"
       # --- for docker-build ---
-      # docker-image-name: ${{ github.repository }}
-      docker-build-args-file: .build.args
+      docker-image-name: ${{ github.repository }}
+      docker-build-args-file: .env
       docker-registry: ghcr.io
       # docker-build-options: --no-cache
       # docker-build-reproducible: true
