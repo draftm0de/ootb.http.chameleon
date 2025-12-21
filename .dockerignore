@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+.env
+.git
+.gitignore
+README.md
+test
+mocks
+.github
+*.md
+.eslintrc*
+.prettierrc*
+eslint.config.mjs
+vitest.config.js
+docker-compose.yml
+Dockerfile
