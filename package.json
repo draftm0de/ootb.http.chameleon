@@ -6,7 +6,7 @@
   "main": "server.js",
   "meta": {
     "title": "Http Chameleon",
-    "description": "A versatile HTTP server that adapts to your needs / mock API responses with file-based JSON storage or proxy requests to external services with CORS support"
+    "description": "A versatile HTTP server that adapts to your needs - mock API responses with file-based JSON storage or proxy requests to external services with CORS support"
   },
   "scripts": {
     "start": "node server.js",
