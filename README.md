@@ -9,6 +9,31 @@ A versatile HTTP server that adapts to your needs - mock API responses with file
 
 ## Setup
 
+### Option 1: Using Published Image
+
+Create a `docker-compose.yml`:
+
+```yaml
+services:
+  http-chameleon:
+    image: ghcr.io/draftm0de/ootb.http.chameleon:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - HOST=https://api.dev.draftmode.io
+      - PORT=3000
+      - MOCK_PATH=mocks
+    volumes:
+      - ./mocks:/app/mocks
+```
+
+Then run:
+```bash
+docker-compose up
+```
+
+### Option 2: Build from Source
+
 1. Configure environment variables in `.env`:
 
    ```
