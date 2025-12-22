@@ -33,7 +33,7 @@ jobs:
       # --- for git tagging ---
       git-tag-levels: "major,minor,patch"
       # --- for docker-build ---
-      # docker-image-name: ${{ github.repository }}
+      docker-image-name: ${{ github.repository }}
       docker-build-args-file: .env
       docker-registry: ghcr.io
       # docker-build-options: --no-cache
