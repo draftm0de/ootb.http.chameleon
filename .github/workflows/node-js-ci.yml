@@ -35,7 +35,6 @@ jobs:
       # --- for docker-build ---
       docker-image-name: ${{ github.repository }}
       docker-build-args-file: .env
-      docker-build-platform: linux/amd64,linux/arm64
       docker-build-options: --no-cache
       docker-registry: ghcr.io
       docker-build-reproducible: true
