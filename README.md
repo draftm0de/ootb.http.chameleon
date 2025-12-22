@@ -1,6 +1,9 @@
 # HTTP Chameleon
 
-![CI](https://github.com/draftmode-io/http-chameleon/workflows/CI/badge.svg)
+![CI](https://github.com/draftm0de/ootb.http.chameleon/actions/workflows/node-js-ci.yml/badge.svg)
+![Version](https://img.shields.io/github/package-json/v/draftm0de/ootb.http.chameleon)
+![License](https://img.shields.io/github/license/draftm0de/ootb.http.chameleon)
+![Node](https://img.shields.io/badge/node-%3E%3D22-brightgreen)
 
 A versatile HTTP server that adapts to your needs - mock API responses with file-based JSON storage or proxy requests to external services with CORS support.
 
