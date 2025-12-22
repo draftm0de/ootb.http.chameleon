@@ -5,8 +5,8 @@
   "type": "module",
   "main": "server.js",
   "meta": {
-    "title": "Http Chameleon",
-    "description": "A versatile HTTP server that adapts to your needs - mock API responses with file-based JSON storage or proxy requests to external services with CORS support"
+    "title": "HTTP Chameleon",
+    "description": "Dual-mode HTTP server for development and testing. Switch seamlessly between file-based JSON mocks with smart path mapping and ID lookup, or proxy to external APIs with full CORS support. Zero configuration, Docker-ready."
   },
   "scripts": {
     "start": "node server.js",

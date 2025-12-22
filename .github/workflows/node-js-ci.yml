@@ -35,8 +35,8 @@ jobs:
       # --- for docker-build ---
       docker-image-name: ${{ github.repository }}
       docker-build-args-file: .env
+      docker-build-options: --no-cache
       docker-registry: ghcr.io
-      # docker-build-options: --no-cache
-      # docker-build-reproducible: true
+      docker-build-reproducible: true
       docker-tag-levels: "latest,major,minor,patch"
     secrets: inherit
