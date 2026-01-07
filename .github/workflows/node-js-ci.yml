@@ -37,6 +37,5 @@ jobs:
       docker-build-args-file: .env
       docker-build-options: --no-cache
       docker-registry: ghcr.io
-      docker-build-reproducible: true
       docker-tag-levels: "latest,major,minor,patch"
     secrets: inherit
