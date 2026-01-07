@@ -1,6 +1,6 @@
 {
   "name": "http-chameleon",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A versatile HTTP server that adapts to your needs - mock API responses with file-based JSON storage or proxy requests to external services with CORS support",
   "type": "module",
   "main": "server.js",
